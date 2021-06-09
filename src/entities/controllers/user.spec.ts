@@ -36,4 +36,21 @@ describe('UserController', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new Error('email not provided'))
   })
+
+  test('Should return 400 if no password is provided', () => {
+    const sut = makeSut()
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        passwordConfirmation: 'any_password'
+      }
+    }
+
+    const httpResponse = sut.create(httpRequest)
+
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new Error('password not provided'))
+  })
 })
