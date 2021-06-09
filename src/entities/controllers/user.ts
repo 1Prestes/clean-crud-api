@@ -7,7 +7,7 @@ export default class UserController implements UserControllerModel {
 
     for (const field of requiredFields) {
       if (!httpRequest.body[field]) {
-        return { statusCode: 400, body: new Error(`${field} not provided`) }
+        return { statusCode: 400, body: new Error(`Missing param ${field}`) }
       }
     }
   }

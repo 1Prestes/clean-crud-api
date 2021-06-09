@@ -1,3 +1,4 @@
+import { MissingParamError } from '../errors/missing-param-error'
 import UserController from './user'
 
 const makeSut = (): UserController => new UserController()
@@ -17,7 +18,7 @@ describe('UserController', () => {
     const httpResponse = sut.create(httpRequest)
 
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new Error('name not provided'))
+    expect(httpResponse.body).toEqual(new MissingParamError('name'))
   })
 
   test('Should return 400 if no email is provided', () => {
@@ -34,7 +35,7 @@ describe('UserController', () => {
     const httpResponse = sut.create(httpRequest)
 
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new Error('email not provided'))
+    expect(httpResponse.body).toEqual(new MissingParamError('email'))
   })
 
   test('Should return 400 if no password is provided', () => {
@@ -51,7 +52,7 @@ describe('UserController', () => {
     const httpResponse = sut.create(httpRequest)
 
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new Error('password not provided'))
+    expect(httpResponse.body).toEqual(new MissingParamError('password'))
   })
 
   test('Should return 400 if no passwordConfirmation is provided', () => {
@@ -69,7 +70,7 @@ describe('UserController', () => {
 
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(
-      new Error('passwordConfirmation not provided')
+      new MissingParamError('passwordConfirmation')
     )
   })
 })
