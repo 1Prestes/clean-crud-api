@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --passWithNoTests",
+    "test:unit": "jest --watch",
     "prepare": "husky install"
   },
   "author": "Dijango Alves Rodolfo",
@@ -30,6 +31,7 @@
   },
   "lint-staged": {
     "*.ts": [
+      "eslint 'src/' --fix",
       "npm run test --no-verify"
     ]
   }
