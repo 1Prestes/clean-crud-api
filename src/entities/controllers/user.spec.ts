@@ -1,3 +1,4 @@
+import { InvalidParamError } from '../errors/invalid-param-error'
 import { MissingParamError } from '../errors/missing-param-error'
 import UserController from './user'
 
@@ -72,5 +73,23 @@ describe('UserController', () => {
     expect(httpResponse.body).toEqual(
       new MissingParamError('passwordConfirmation')
     )
+  })
+
+  test('Should return 400 if the passwords no match', () => {
+    const sut = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@mail.com',
+        password: 'any_password',
+        passwordConfirmation: 'invalid_password'
+      }
+    }
+    const httpResponse = sut.create(httpRequest)
+
+    expect(httpResponse).toEqual({
+      statusCode: 400,
+      body: new InvalidParamError('passwordConfirmation')
+    })
   })
 })
