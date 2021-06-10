@@ -1,3 +1,4 @@
+import { badRequest } from '../helpers/http-helper'
 import { HttpRequest } from '../protocols/http'
 import { UserControllerModel } from '../protocols/user-controller'
 
@@ -7,7 +8,7 @@ export default class UserController implements UserControllerModel {
 
     for (const field of requiredFields) {
       if (!httpRequest.body[field]) {
-        return { statusCode: 400, body: new Error(`Missing param ${field}`) }
+        return badRequest(new Error(`Missing param ${field}`))
       }
     }
   }
