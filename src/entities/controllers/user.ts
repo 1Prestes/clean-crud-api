@@ -1,18 +1,21 @@
+import { AddAccount } from '../../domain/usecases/add-account'
 import { InvalidParamError } from '../errors/invalid-param-error'
 import { MissingParamError } from '../errors/missing-param-error'
-import { badRequest, serverError } from '../helpers/http-helper'
+import { badRequest, created, serverError } from '../helpers/http-helper'
 import { EmailValidator } from '../protocols/email-validator'
-import { HttpRequest } from '../protocols/http'
+import { HttpRequest, HttpResponse } from '../protocols/http'
 import { UserControllerModel } from '../protocols/user-controller'
 
 export default class UserController implements UserControllerModel {
   private readonly emailValidator: EmailValidator
+  private readonly addAccount: AddAccount
 
-  constructor (emailValidator: EmailValidator) {
+  constructor (emailValidator: EmailValidator, addAccount: AddAccount) {
     this.emailValidator = emailValidator
+    this.addAccount = addAccount
   }
 
-  create (httpRequest: HttpRequest): any {
+  create (httpRequest: HttpRequest): HttpResponse {
     try {
       const requiredFields = [
         'name',
@@ -20,7 +23,7 @@ export default class UserController implements UserControllerModel {
         'password',
         'passwordConfirmation'
       ]
-      const { email, password, passwordConfirmation } = httpRequest.body
+      const { name, email, password, passwordConfirmation } = httpRequest.body
 
       for (const field of requiredFields) {
         if (!httpRequest.body[field]) {
@@ -35,6 +38,8 @@ export default class UserController implements UserControllerModel {
       if (!this.emailValidator.isValid(email)) {
         return badRequest(new InvalidParamError('email'))
       }
+
+      return created(this.addAccount.add({ name, email, password }))
     } catch (error) {
       return serverError()
     }
