@@ -1,5 +1,5 @@
 import { HttpRequest, HttpResponse } from './http'
 
 export interface UserControllerModel {
-  create: (httpRequest: HttpRequest) => HttpResponse
+  create: (httpRequest: HttpRequest) => Promise<HttpResponse>
 }

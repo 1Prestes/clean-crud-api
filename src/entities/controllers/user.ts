@@ -15,7 +15,7 @@ export default class UserController implements UserControllerModel {
     this.addAccount = addAccount
   }
 
-  create (httpRequest: HttpRequest): HttpResponse {
+  async create (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const requiredFields = [
         'name',
@@ -39,7 +39,9 @@ export default class UserController implements UserControllerModel {
         return badRequest(new InvalidParamError('email'))
       }
 
-      return created(this.addAccount.add({ name, email, password }))
+      const account = await this.addAccount.add({ name, email, password })
+
+      return created(account)
     } catch (error) {
       return serverError()
     }
