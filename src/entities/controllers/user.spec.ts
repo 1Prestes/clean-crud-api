@@ -57,7 +57,7 @@ describe('UserController', () => {
       }
     }
 
-    const httpResponse = await sut.create(httpRequest)
+    const httpResponse = await sut.store(httpRequest)
 
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('name'))
@@ -74,7 +74,7 @@ describe('UserController', () => {
       }
     }
 
-    const httpResponse = await sut.create(httpRequest)
+    const httpResponse = await sut.store(httpRequest)
 
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('email'))
@@ -91,7 +91,7 @@ describe('UserController', () => {
       }
     }
 
-    const httpResponse = await sut.create(httpRequest)
+    const httpResponse = await sut.store(httpRequest)
 
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('password'))
@@ -108,7 +108,7 @@ describe('UserController', () => {
       }
     }
 
-    const httpResponse = await sut.create(httpRequest)
+    const httpResponse = await sut.store(httpRequest)
 
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(
@@ -126,7 +126,7 @@ describe('UserController', () => {
         passwordConfirmation: 'invalid_password'
       }
     }
-    const httpResponse = await sut.create(httpRequest)
+    const httpResponse = await sut.store(httpRequest)
 
     expect(httpResponse).toEqual({
       statusCode: 400,
@@ -145,7 +145,7 @@ describe('UserController', () => {
         passwordConfirmation: 'any_password'
       }
     }
-    const httpResponse = await sut.create(httpRequest)
+    const httpResponse = await sut.store(httpRequest)
 
     expect(httpResponse).toEqual({
       statusCode: 400,
@@ -165,7 +165,7 @@ describe('UserController', () => {
       }
     }
 
-    await sut.create(httpRequest)
+    await sut.store(httpRequest)
 
     expect(isValidSpy).toHaveBeenCalledWith('valid_email@mail.com')
   })
@@ -184,7 +184,7 @@ describe('UserController', () => {
       }
     }
 
-    const httpResponse = await sut.create(httpRequest)
+    const httpResponse = await sut.store(httpRequest)
 
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
@@ -202,7 +202,7 @@ describe('UserController', () => {
       }
     }
 
-    await sut.create(httpRequest)
+    await sut.store(httpRequest)
     expect(addSpy).toHaveBeenCalledWith({
       name: 'any_name',
       email: 'any_email@mail.com',
@@ -224,7 +224,7 @@ describe('UserController', () => {
       }
     }
 
-    const httpResponse = await sut.create(httpRequest)
+    const httpResponse = await sut.store(httpRequest)
 
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
@@ -242,7 +242,7 @@ describe('UserController', () => {
       }
     }
 
-    const httpResponse = await sut.create(httpRequest)
+    const httpResponse = await sut.store(httpRequest)
 
     expect(httpResponse.statusCode).toBe(201)
     expect(addSpy).toHaveBeenCalledWith({

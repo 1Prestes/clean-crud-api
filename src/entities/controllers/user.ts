@@ -15,7 +15,7 @@ export default class UserController implements UserControllerModel {
     this.addAccount = addAccount
   }
 
-  async create (httpRequest: HttpRequest): Promise<HttpResponse> {
+  async store (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const requiredFields = [
         'name',
